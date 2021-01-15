@@ -1,23 +1,36 @@
-import React, { Fragment, useState } from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { Fragment } from 'react';
+import {
+  HashRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import Auth from '../routes/Auth';
 import Home from '../routes/Home';
-
-const AppRouter = () => {
-  const [isloggedIn, setIsLoggedIn] = useState(false);
+import Navigation from './Navigation';
+import Profile from 'routes/Profile';
+const AppRouter = ({ isLoggedIn }) => {
   return (
     <Router>
+      {isLoggedIn && <Navigation />}
       <Switch>
-        {isloggedIn ? (
+        {isLoggedIn ? (
           <Fragment>
-            <Route>
+            <Route exact path='/'>
               <Home />
             </Route>
+            <Route exact path='/profile'>
+              <Profile />
+            </Route>
+            <Redirect from='*' to='/' />
           </Fragment>
         ) : (
-          <Route>
-            <Auth />
-          </Route>
+          <>
+            <Route exact path='/'>
+              <Auth />
+            </Route>
+            <Redirect from='*' to='/' />
+          </>
         )}
       </Switch>
     </Router>
