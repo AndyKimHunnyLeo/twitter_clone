@@ -1,16 +1,18 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import AppRouter from 'components/Router';
 import { authService } from 'fbase';
+import GlobalLoading from './globalLoading';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [init, setInit] = useState(false);
-  // console.log(authService.currentUser);
+  const [userObj, setUserObj] = useState(null);
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
+        setUserObj(user);
       } else {
         setIsLoggedIn(false);
       }
@@ -20,7 +22,11 @@ function App() {
 
   return (
     <Fragment>
-      {init ? <AppRouter isLoggedIn={isLoggedIn} /> : <div>Initializing</div>}
+      {init ? (
+        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
+      ) : (
+        <GlobalLoading loading={true} />
+      )}
     </Fragment>
   );
 }

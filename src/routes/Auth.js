@@ -13,8 +13,8 @@ const Auth = () => {
     if (name === 'email') {
       setEmail(value);
     } else if (name === 'password') {
-      setPassword(value);
     }
+    setPassword(value);
     // if (event.target.name === 'email') {
     //   setEmail(event.target.value);
     // } else {
