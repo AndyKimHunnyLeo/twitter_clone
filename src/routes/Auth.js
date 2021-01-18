@@ -15,11 +15,6 @@ const Auth = () => {
     } else if (name === 'password') {
     }
     setPassword(value);
-    // if (event.target.name === 'email') {
-    //   setEmail(event.target.value);
-    // } else {
-    //   setPassword(event.target.value);
-    // }
   };
 
   const onSubmit = async (event) => {

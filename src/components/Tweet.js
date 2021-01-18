@@ -1,4 +1,4 @@
-import { dbService } from 'fbase';
+import { dbService, storageService } from 'fbase';
 import React, { useState } from 'react';
 
 const Tweet = ({ tweetObj, isOwner }) => {
@@ -8,11 +8,11 @@ const Tweet = ({ tweetObj, isOwner }) => {
     const ok = window.confirm('Are you sure you want to delete your tweet');
     if (ok) {
       await dbService.doc(`tweets/${tweetObj.id}`).delete();
+      await storageService.refFromURL(tweetObj.attechmentUrl).delete();
     }
   };
 
   const toggleEditing = () => setEditing((prev) => !prev);
-
   const onChange = (event) => {
     const {
       target: { value },
@@ -40,6 +40,9 @@ const Tweet = ({ tweetObj, isOwner }) => {
       ) : (
         <>
           <h4>{tweetObj.text}</h4>
+          {tweetObj.attechmentUrl && (
+            <img src={tweetObj.attechmentUrl} alt='' width='50px' />
+          )}
           {isOwner && (
             <>
               <button onClick={toggleEditing}>Edit Tweet</button>
